@@ -1,0 +1,59 @@
+/* Full-page wrapper with a gradient background */
+.schedule-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    #eff6ff,  /* equivalent to blue-50 */
+    #ffffff,  /* white */
+    #f5f3ff   /* equivalent to purple-50 */
+  );
+}
+
+/* Centered container with horizontal padding */
+.schedule-container {
+  max-width: 1024px; /* Adjust as needed (equivalent to Tailwind's max-w-4xl) */
+  margin: 0 auto;
+  padding: 2rem 1rem; /* 2rem vertical padding, 1rem horizontal */
+}
+
+/* Header row: flex layout to space the title and modify button */
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Title styling */
+.schedule-title {
+  font-size: 2rem; /* roughly text-3xl; adjust if you need larger on medium screens */
+  font-weight: bold;
+  color: #1f2937; /* dark gray (text-gray-800) */
+}
+
+/* Modify Schedule button styling */
+.btn-modify {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Icon size for small icons */
+.icon-small {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Tab navigation container */
+.tab-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.btn-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

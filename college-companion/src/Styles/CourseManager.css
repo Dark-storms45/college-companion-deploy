@@ -1,0 +1,204 @@
+/* Course Manager Container */
+.course-manager__card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.10);
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.course-manager__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 24px 20px 24px;
+  border-bottom: 1.5px solid #e5e7eb;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+/* Add Course Button */
+.course-manager__add-course-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.course-manager__add-course-btn:hover {
+  background: linear-gradient(90deg, #5a67d8 0%, #6b21a8 100%);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+}
+
+.course-manager__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Dialog Styles */
+.course-manager__dialog {
+  max-width: 800px;
+  border-radius: 16px;
+  padding: 32px 24px;
+  background: #f9fafb;
+}
+
+.course-manager__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.course-manager__form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.course-manager__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.course-manager__form-group.full-width {
+  grid-column: span 2;
+}
+
+.course-manager__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 20px;
+}
+
+/* Table Styles */
+.course-manager__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.course-manager__table th,
+.course-manager__table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1.5px solid #e5e7eb;
+}
+
+.course-manager__table th {
+  font-weight: 700;
+  color: #4f46e5;
+  background: #f3f4f6;
+  font-size: 1.05rem;
+}
+
+.course-manager__course-code {
+  font-weight: 700;
+  color: #3730a3;
+}
+
+/* Level Badges */
+.course-manager__level-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.course-manager__level-freshman {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.course-manager__level-sophomore {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.course-manager__level-junior {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.course-manager__level-senior {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.course-manager__level-master {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.course-manager__level-phd {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.course-manager__level-default {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Action Buttons */
+.course-manager__action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.course-manager__edit-btn, .course-manager__delete-btn {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #f3f4f6;
+  color: #4f46e5;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.course-manager__edit-btn:hover {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.course-manager__delete-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .course-manager__form-grid {
+    grid-template-columns: 1fr;
+  }
+  .course-manager__form-group.full-width {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .course-manager__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px 10px 12px 10px;
+  }
+  .course-manager__dialog {
+    padding: 18px 8px;
+  }
+  .course-manager__table th,
+  .course-manager__table td {
+    padding: 10px 8px;
+  }
+}

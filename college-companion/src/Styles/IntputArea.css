@@ -1,0 +1,108 @@
+.input-area {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border-top: 1px solid rgba(246, 135, 18, 0.2);
+          padding: 1.5rem 2rem;
+          position: sticky;
+          bottom: 0;
+          z-index: 100;
+        }
+
+        .input-container-1 {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .input-row {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .input-wrapper {
+          flex: 1;
+          position: relative;
+        }
+
+        .message-input {
+          width: 100%;
+          min-height: 48px;
+          max-height: 128px;
+          padding: 12px 16px;
+          border: 2px solid rgba(246, 135, 18, 0.2);
+          border-radius: 25px;
+          font-size: 0.95rem;
+          font-family: inherit;
+          color: #06123D;
+          background: white;
+          resize: none;
+          outline: none;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-input:focus {
+          border-color: #F68712;
+          box-shadow: 0 4px 20px rgba(246, 135, 18, 0.2);
+        }
+
+        .message-input::placeholder {
+          color: #999;
+        }
+
+        .send-button {
+          width: 48px;
+          height: 48px;
+          border: none;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #F68712 0%, #ff9a3d 100%);
+          color: white;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(246, 135, 18, 0.3);
+        }
+
+        .send-button:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 25px rgba(246, 135, 18, 0.4);
+        }
+
+        .send-button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .send-button .icon-sm {
+          width: 20px;
+          height: 20px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+          display: flex;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+        }
+
+        .quick-action {
+          padding: 0.5rem 1rem;
+          border: 2px solid rgba(246, 135, 18, 0.3);
+          border-radius: 25px;
+          background: rgba(246, 135, 18, 0.1);
+          color: #06123D;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(5px);
+        }
+
+        .quick-action:hover {
+          background: #F68712;
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(246, 135, 18, 0.3);
+        }
