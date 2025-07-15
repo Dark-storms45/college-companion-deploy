@@ -2,17 +2,17 @@ import React, { useState } from "react";
 
 function CreateGroupModal({ isOpen, onClose, onCreateGroup }) {
   const [groupName, setGroupName] = useState("");
-  const [course, setCourse] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (groupName.trim() && course.trim()) {
-      onCreateGroup({ groupName, course });
+    if (groupName.trim() && description.trim()) {
+      onCreateGroup({ groupName, description });
       setGroupName("");
-      setCourse("");
+      setDescription("");
       onClose();
     } else {
-      alert("Please enter both group name and course.");
+      alert("Please enter both group name and description.");
     }
   };
 
@@ -34,18 +34,22 @@ function CreateGroupModal({ isOpen, onClose, onCreateGroup }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="course">Course:</label>
+            <label htmlFor="description">Description:</label>
             <input
               type="text"
-              id="course"
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               required
             />
           </div>
           <div className="modal-actions">
-            <button type="submit" className="create-button">Create</button>
-            <button type="button" onClick={onClose} className="cancel-button">Cancel</button>
+            <button type="submit" className="create-button">
+              Create
+            </button>
+            <button type="button" onClick={onClose} className="cancel-button">
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -53,4 +57,4 @@ function CreateGroupModal({ isOpen, onClose, onCreateGroup }) {
   );
 }
 
-export default CreateGroupModal; 
+export default CreateGroupModal;
