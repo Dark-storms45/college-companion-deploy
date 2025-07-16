@@ -10,6 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy Django project and manage.py
 COPY backend/ /app/backend/
+# ...existing code...
+COPY backend/backend/firebase-service-account.json /app/backend/firebase-service-account.json
+# ...existing code...
 COPY manage.py /app/manage.py
 
 # Copy entrypoint
