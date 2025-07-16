@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y gcc libpq-dev
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend code
