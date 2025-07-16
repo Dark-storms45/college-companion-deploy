@@ -23,7 +23,7 @@ sentry-sdk==2.5.0
 
 # Utility & helpers
 python-dotenv==1.1.0
-python-magic==5.3.1
+python-magic==0.4.27
 psycopg2-binary==2.9.10
 requests==2.32.3
 pillow==11.2.1
