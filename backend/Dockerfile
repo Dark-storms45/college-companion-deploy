@@ -19,4 +19,4 @@ COPY . .
 # Make entrypoint executable
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["backend/entrypoint.sh"]
