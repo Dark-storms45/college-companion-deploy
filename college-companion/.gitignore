@@ -20,6 +20,9 @@ myenv/
 /coverage
 
 
+.idea/
+.vscode/
+
 # production
 /build
 
