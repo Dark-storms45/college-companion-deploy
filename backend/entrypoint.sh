@@ -1,10 +1,10 @@
 #!/bin/sh
 
-python manage.py migrate
-python manage.py createsuperuser --noinput || true
+python /app/manage.py migrate
+python /app/manage.py createsuperuser --noinput || true
 
-gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 &
+gunicorn backend.wsgi:application --chdir /app --bind 0.0.0.0:8000 --workers 3 &
 
-celery -A backend worker --loglevel=INFO &
+celery -A backend worker --workdir=/app --loglevel=INFO &
 
 wait
