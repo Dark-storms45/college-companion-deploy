@@ -28,9 +28,9 @@ import os
 SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-default-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://backend-f7l5.onrender.com']
 
 # jwt configurations
 REST_FRAMEWORK = {
@@ -65,6 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    'https://college-companion-48vu.onrender.com'
 
 ]
 
@@ -87,16 +88,18 @@ CORS_ALLOW_HEADERS = [
 #
 CSRF_TRUSTED_ORIGINS=[
     'http://localhost:5173',
-    'http://127.0.0.1:5173'
+    'http://127.0.0.1:5173',
+    'https://college-companion-48vu.onrender.com'
+
 ]
 
 
 CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None
+SESSION_COOKIE_DOMAIN='https://backend-f7l5.onrender.com'
+CSRF_COOKIE_DOMAIN='https://backend-f7l5.onrender.com'
 SESSION_COOKIE_HTTPONLY = True
 
 # Application definition

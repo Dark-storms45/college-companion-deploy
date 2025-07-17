@@ -90,9 +90,9 @@ class LoginView(APIView):
                 value=access_token,
                 samesite='Lax',
                 httponly=True,
-                secure=False,
-                max_age=timedelta(days=7, hours=23, minutes=59),
-                domain='localhost'
+                secure=True,
+                max_age=7 * 24 * 60 * 60,
+                domain='https://backend-f7l5.onrender.com'
 
             )
 
@@ -101,9 +101,9 @@ class LoginView(APIView):
                 value=str(refresh),
                 samesite='Lax',
                 httponly=True,
-                secure=False,
-                max_age = timedelta(days=12, hours=23, minutes=59),
-                domain='localhost'
+                secure=True,
+                max_age = 12 * 24 * 60 * 60,
+                domain='https://backend-f7l5.onrender.com'
             )
 
             return response
@@ -151,7 +151,7 @@ class CookieTokenRefreshView(TokenRefreshView):
                 value=access_token,
                 samesite='Lax',
                 httponly=True,
-                secure=False,
+                secure=True,
                 max_age=timedelta(days=12, hours=23, minutes=59),
             )
          return response  
@@ -207,9 +207,9 @@ class GoogleAuthView(APIView):
                     value=access_token,
                     samesite='Lax',
                     httponly=True,
-                    secure=False,
-                    max_age = timedelta(days=7, hours=23, minutes=59),
-
+                    secure=True,
+                    max_age =7 * 24 * 60 * 60,
+                    domain='https://backend-f7l5.onrender.com'
                     )
 
                     response.set_cookie(
@@ -217,8 +217,9 @@ class GoogleAuthView(APIView):
                     value=str(refresh),
                     samesite='Lax',
                     httponly=True,
-                    secure=False,
-                    max_age=timedelta(days=12, hours=23, minutes=59),
+                    secure=True,
+                    max_age=12 * 24 * 60 * 60,
+                    domain='https://backend-f7l5.onrender.com'
 
                   )    
                 
