@@ -1,11 +1,12 @@
-# frontend/Dockerfile
-FROM node:18-alpine as builder
+# Build stage
+FROM node:18 AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install 
+RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
+# Serve stage
 FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
