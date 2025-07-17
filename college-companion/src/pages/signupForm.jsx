@@ -1,5 +1,5 @@
-  import FormComponent from "../components/Form";
-
+import FormComponent from "../components/Form";
+import { Routes, Route } from "react-router-dom";
 function SignupForm() {
   return (
     <FormComponent
