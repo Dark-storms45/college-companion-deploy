@@ -252,16 +252,15 @@ OPENAI_API_KEY = os.getenv("VITE_OPEN_AI")
 
 # Firebase Cloud Messaging settings
 
-# Load credentials from file
-BASE_DIR = Path(__file__).resolve().parent.parent
-FIREBASE_CREDENTIAL_PATH = BASE_DIR / "serviceAccountKey.json"
-
-if not FIREBASE_CREDENTIAL_PATH.exists():
-    raise FileNotFoundError("Firebase service account file missing")
-
-# Initialize Firebase
+import os
+import json
 import firebase_admin
 from firebase_admin import credentials
 
-cred = credentials.Certificate(str(FIREBASE_CREDENTIAL_PATH))
-firebase_admin.initialize_app(cred)
+firebase_json = os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON")
+if firebase_json:
+    cred_dict = json.loads(firebase_json)
+    cred = credentials.Certificate(cred_dict)
+    firebase_admin.initialize_app(cred)
+else:
+    print("WARNING: FIREBASE_SERVICE_ACCOUNT_JSON not set")

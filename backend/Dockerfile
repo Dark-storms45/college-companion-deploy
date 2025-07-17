@@ -8,10 +8,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy Django project and manage.py
-COPY backend/ /app/backend/
-COPY serviceAccountKey.json /app/backend/serviceAccountKey.json
-COPY manage.py /app/manage.py
+
+# Copy the entire project (all apps, manage.py, etc.)
+COPY . /app/
 
 # Copy entrypoint
 COPY entrypoint.sh /app/entrypoint.sh
