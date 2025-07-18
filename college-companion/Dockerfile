@@ -1,34 +1,28 @@
-# Use official Node image
+# ----------- Build Stage -----------
 FROM node:20-alpine AS builder
 
-# Set working directory inside frontend folder
 WORKDIR /app
 
-# Copy package.json first for better layer caching
-COPY package.json package-lock.json ./
-
-# Install dependencies
+# Cache dependencies install
+COPY package*.json ./
 RUN npm install
 
-# Copy full project
+# Copy remaining app files
 COPY . .
 
-# Ensure vite is executable
-RUN chmod +x ./node_modules/.bin/vite
+# Run build (Vite, React, etc.)
+RUN npm run build
 
-# Run build using full path
-RUN ./node_modules/.bin/vite build
-
-# -------------------
-# Serve final build
-# -------------------
+# ----------- Serve Stage -----------
 FROM node:20-alpine
 
 WORKDIR /app
+
+# Copy only the built assets
 COPY --from=builder /app/dist ./dist
 
-# Install static file server
+# Install static server
 RUN npm install -g serve
 
-CMD ["serve", "-s", "dist"]
 EXPOSE 3000
+CMD ["serve", "-s", "dist"]
