@@ -5,7 +5,7 @@ set -e
 echo "🔄 Running migrations..."
 python /app/manage.py makemigrations --noinput
 python /app/manage.py migrate --noinput
-python manage.py migrate api
+python manage.py migrate api 0001 --fake
 
 echo "📦 Collecting static files..."
 python /app/manage.py collectstatic --noinput
