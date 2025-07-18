@@ -4,7 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 COPY . .
-RUN npm run build
+RUN npx vite build
+
 
 # Serve stage
 FROM nginx:alpine
