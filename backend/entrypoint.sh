@@ -21,7 +21,8 @@ if email and password and not User.objects.filter(email=email).exists():
 END
 
 echo "🚀 Starting Gunicorn..."
-gunicorn backend.wsgi:application --chdir /app --bind 0.0.0.0:8000 --workers3 &
+gunicorn backend.wsgi:application --chdir /app --bind 0.0.0.0:8000 --workers 3 &
+
 
 
 wait
