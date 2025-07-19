@@ -5,7 +5,7 @@
   "description": "This project was bootstrapped with Create React App.",
   "main": "eslint.config.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --no-open",
     "build": "vite",
     "preview": "vite preview",
     "start": "vite",
