@@ -1,28 +1,33 @@
 # ----------- Build Stage -----------
 FROM node:20-alpine AS builder
 
+# Enable pnpm via Corepack
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 WORKDIR /app
 
-# Cache dependencies install
-COPY package*.json ./
-RUN npm install
+# Copy only package manifest files for install caching
+COPY package.json pnpm-lock.yaml ./
 
-# Copy remaining app files
+# Install dependencies with pnpm
+RUN pnpm install
+
+# Copy remaining app source code
 COPY . .
 
-# Run build (Vite, React, etc.)
-RUN npm run build
+# Build the app (for Vite-based React apps)
+RUN pnpm run build
 
 # ----------- Serve Stage -----------
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy only the built assets
+# Copy built assets from the build stage
 COPY --from=builder /app/dist ./dist
 
-# Install static server
-RUN npm install -g serve
+# Install a simple static file server
+RUN pnpm add -g serve
 
 EXPOSE 3000
 CMD ["serve", "-s", "dist"]
