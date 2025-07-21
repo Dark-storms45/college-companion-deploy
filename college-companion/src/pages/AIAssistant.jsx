@@ -29,7 +29,7 @@ function AIAssistant() {
   const sendToAI = async (prompt) => {
     try {
       const response = await fetch(
-        `https://backend-f7l5.onrender.com/ai/chat/`,
+        `https://backend-45sn.onrender.com/ai/chat/`,
         {
           method: "POST",
           headers: {

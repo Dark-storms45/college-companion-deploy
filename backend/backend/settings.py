@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://backend-f7l5.onrender.com']
+ALLOWED_HOSTS = ['https://backend-45sn.onrender.com']
 
 # jwt configurations
 REST_FRAMEWORK = {
@@ -65,7 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    'https://college-companion-3ebn.onrender.com',
+    'https://college-companion-8lcp.onrender.com',
 
 
 ]
@@ -90,7 +90,7 @@ CORS_ALLOW_HEADERS = [
 CSRF_TRUSTED_ORIGINS=[
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://college-companion-3ebn.onrender.com'
+    'https://college-companion-8lcp.onrender.com'
 
 ]
 
@@ -99,8 +99,8 @@ CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_DOMAIN='https://backend-f7l5.onrender.com'
-CSRF_COOKIE_DOMAIN='https://backend-f7l5.onrender.com'
+SESSION_COOKIE_DOMAIN='https://backend-45sn.onrender.com'
+CSRF_COOKIE_DOMAIN='https://backend-45sn.onrender.com'
 SESSION_COOKIE_HTTPONLY = True
 
 # Application definition
@@ -218,8 +218,8 @@ CORS_ALLOW_CREDENTIALS = True
 AUTH_USER_MODEL = 'api.CustomUser'
 
 # Celery settings
-CELERY_BROKER_URL = 'rediss://red-d1slk2adbo4c73d702vg:YYH2a7h73HEflueZ4YOqGNhUKJ3Tia0a@oregon-keyvalue.render.com:6379'
-CELERY_RESULT_BACKEND = 'rediss://red-d1slk2adbo4c73d702vg:YYH2a7h73HEflueZ4YOqGNhUKJ3Tia0a@oregon-keyvalue.render.com:6379'
+CELERY_BROKER_URL = 'rediss://red-d1vaa8ur433s73fgq4ig:vT0PJ6P9T29qthr5KbO2nOYXfdHRi3pu@oregon-keyvalue.render.com:6379'
+CELERY_RESULT_BACKEND = 'rediss://red-d1vaa8ur433s73fgq4ig:vT0PJ6P9T29qthr5KbO2nOYXfdHRi3pu@oregon-keyvalue.render.com:6379'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -230,7 +230,7 @@ CELERY_RESULT_EXPIRES = 3600
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "rediss://red-d1slk2adbo4c73d702vg:YYH2a7h73HEflueZ4YOqGNhUKJ3Tia0a@oregon-keyvalue.render.com:6379",
+        "LOCATION": "rediss://red-d1vaa8ur433s73fgq4ig:vT0PJ6P9T29qthr5KbO2nOYXfdHRi3pu@oregon-keyvalue.render.com:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
