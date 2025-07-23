@@ -23,11 +23,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy built assets from the build stage
-COPY --from=builder /app/dist ./dist
+# Install and enable pnpm using Corepack
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Install a simple static file server
 RUN pnpm add -g serve
 
+# Copy built assets from the build stage
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 3000
 CMD ["serve", "-s", "dist"]
+
