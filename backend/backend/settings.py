@@ -65,7 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    'https://college-companion-v02d.onrender.com',
+    'https://college-companion-beta-p1wb.onrender.com',
 
 
 ]
@@ -90,7 +90,7 @@ CORS_ALLOW_HEADERS = [
 CSRF_TRUSTED_ORIGINS=[
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://college-companion-v02d.onrender.com'
+    'https://college-companion-beta-p1wb.onrender.com'
 
 ]
 
