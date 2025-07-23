@@ -23,6 +23,10 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+
 # Install and enable pnpm using Corepack
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
