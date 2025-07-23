@@ -1,5 +1,5 @@
 import React from "react";
-import "./Button.css";
+import "./button.css";
 const Button = React.forwardRef(
   ({ className, variant = "default", size = "default", ...props }, ref) => {
     const buttonClass = `button button--${variant} button-size-${size} ${
