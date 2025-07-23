@@ -12,7 +12,7 @@ import {
   FaBars,
   FaUserCircle,
   FaQuestionCircle,
-    FaRobot,
+  FaRobot,
 } from "react-icons/fa";
 import axios from "axios";
 import { onMessageListener } from "../utils/firebase";
@@ -36,7 +36,7 @@ import {
 } from "@mui/material";
 import "../Styles/Dashboard.css";
 import UserContext from "../context/UserContext";
-import {useToast} from "@/hooks/use-toast.js";
+import { useToast } from "@/hooks/use-toast.js";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -48,8 +48,8 @@ const Dashboard = () => {
   const { user, setUser } = useContext(UserContext);
   const [showRelativeTime, setShowRelativeTime] = useState(true);
   const [tipOfTheDay, setTipOfTheDay] = useState({
-    tip: '',
-    author: 'AdviceSlip'
+    tip: "",
+    author: "AdviceSlip",
   });
 
   const navItems = [
@@ -61,9 +61,8 @@ const Dashboard = () => {
     { name: "AI Assistant", icon: <FaRobot />, route: "/My assistant " },
   ];
 
-
   const semesterEnd = "2025-06-28T23:59:59";
-  const {addtoast}=useToast();
+  const { addtoast } = useToast();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,9 +70,6 @@ const Dashboard = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-
-
 
   useEffect(() => {
     fetch("https://api.adviceslip.com/advice")
@@ -91,12 +87,8 @@ const Dashboard = () => {
       });
   }, []);
 
-
-
-
-
-    const [notifications, setNotifications] = useState([]);
-     useEffect(() => {
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
     const listen = async () => {
       try {
         const payload = await onMessageListener();
@@ -112,7 +104,7 @@ const Dashboard = () => {
           return updated;
         });
 
-           addtoast({
+        addtoast({
           title: incoming.title,
           description: incoming.body,
           variant: "default",
@@ -123,7 +115,7 @@ const Dashboard = () => {
     };
 
     listen();
-  }, );
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -139,19 +131,18 @@ const Dashboard = () => {
 
   const renderMobileMenu = (
     <React.Fragment>
-    <Drawer
-      anchor="left"
-      open={mobileOpen}
-      onClose={handleDrawerToggle}
-      ModalProps={{ keepMounted: true }}
-    >
-      <Box className="mobileDrawer">
-        <IconButton onClick={handleDrawerToggle} className="closeButton">
-          <FaTimes />
-        </IconButton>
-        <List>
-
-          {navItems.map((item) => (
+      <Drawer
+        anchor="left"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+      >
+        <Box className="mobileDrawer">
+          <IconButton onClick={handleDrawerToggle} className="closeButton">
+            <FaTimes />
+          </IconButton>
+          <List>
+            {navItems.map((item) => (
               <ListItem key={item.name} disablePadding>
                 <ListItemButton
                   onClick={() => {
@@ -172,7 +163,6 @@ const Dashboard = () => {
 
   const renderDesktopMenu = (
     <React.Fragment>
-
       <Box className="desktopMenu">
         {navItems.map((item) => (
           <div
@@ -232,7 +222,6 @@ const Dashboard = () => {
     },
   ];
 
-
   const formatTimestamp = (date) => {
     if (showRelativeTime) {
       const seconds = Math.floor((new Date() - date) / 1000);
@@ -268,14 +257,23 @@ const Dashboard = () => {
     <div className="dashboard-container dashboard-pro__container">
       <AppBar position="static" className="appBar dashboard-pro__appbar">
         <Toolbar className="dashboard-pro__toolbar">
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle} className="dashboard-pro__menu-btn">
-              <FaBars />
-            </IconButton>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerToggle}
+            className="dashboard-pro__menu-btn"
+          >
+            <FaBars />
+          </IconButton>
           <Typography variant="h6" className="title dashboard-pro__title">
             Student Dashboard
           </Typography>
-          <div className="dashboard-pro__profile-btn" onClick={handleProfileMenuOpen}>
-            <Avatar className="dashboard-pro__avatar" src={user?.avatar || ''}>
+          <div
+            className="dashboard-pro__profile-btn"
+            onClick={handleProfileMenuOpen}
+          >
+            <Avatar className="dashboard-pro__avatar" src={user?.avatar || ""}>
               {user?.name?.[0] || <FaUserCircle />}
             </Avatar>
           </div>
@@ -289,31 +287,39 @@ const Dashboard = () => {
               <FaGraduationCap className="dashboard-pro__analytics-icon" />
               <div>
                 <h3>Courses</h3>
-                <div className="dashboard-pro__analytics-value">{user?.courses?.length || 0}</div>
+                <div className="dashboard-pro__analytics-value">
+                  {user?.courses?.length || 0}
+                </div>
               </div>
             </div>
             <div className="dashboard-pro__analytics-card dashboard-pro__analytics-card--progress">
               <FaChartLine className="dashboard-pro__analytics-icon" />
               <div>
                 <h3>Progress</h3>
-                <div className="dashboard-pro__analytics-value">{user?.progress || 'N/A'}</div>
+                <div className="dashboard-pro__analytics-value">
+                  {user?.progress || "N/A"}
+                </div>
               </div>
             </div>
             <div className="dashboard-pro__analytics-card dashboard-pro__analytics-card--timetable">
               <FaTable className="dashboard-pro__analytics-icon" />
               <div>
                 <h3>Timetable</h3>
-                <div className="dashboard-pro__analytics-value">{user?.timetable?.length || 0}</div>
+                <div className="dashboard-pro__analytics-value">
+                  {user?.timetable?.length || 0}
+                </div>
               </div>
             </div>
             <div className="dashboard-pro__analytics-card dashboard-pro__analytics-card--notifications">
               <FaBell className="dashboard-pro__analytics-icon" />
-                      <div>
+              <div>
                 <h3>Notifications</h3>
-                <div className="dashboard-pro__analytics-value">{notifications.length}</div>
+                <div className="dashboard-pro__analytics-value">
+                  {notifications.length}
+                </div>
               </div>
-                      </div>
-                    </div>
+            </div>
+          </div>
         </section>
         <section className="dashboard-pro__activity-section">
           <div className="section-header">
@@ -322,34 +328,42 @@ const Dashboard = () => {
           <ul className="dashboard-pro__activity-list">
             {recentActivities.map((activity, idx) => (
               <li key={idx} className="dashboard-pro__activity-item">
-                <span className={`dashboard-pro__activity-icon dashboard-pro__activity-icon--${activity.type}`}>{getActivityIcon(activity.type)}</span>
+                <span
+                  className={`dashboard-pro__activity-icon dashboard-pro__activity-icon--${activity.type}`}
+                >
+                  {getActivityIcon(activity.type)}
+                </span>
                 <div className="dashboard-pro__activity-content">
                   <p>{activity.action}</p>
-                  <span className="dashboard-pro__timestamp">{formatTimestamp(activity.timestamp)}</span>
+                  <span className="dashboard-pro__timestamp">
+                    {formatTimestamp(activity.timestamp)}
+                  </span>
                 </div>
               </li>
             ))}
           </ul>
         </section>
- <section className="dashboard-pro__notifications-section">
-  <div className="section-header">
-    <h2>Notifications</h2>
-  </div>
-  <ul className="dashboard-pro__notifications-list">
-
-    {/* Tip of the Day */}
-    {tipOfTheDay.tip && (
-      <li className="dashboard-pro__notification-item tip-of-the-day">
-        <FaBell className="dashboard-pro__notification-icon" />
-        <div className="dashboard-pro__notification-content">
-          <p><strong> Tip of the Day:</strong> {tipOfTheDay.tip}</p>
-          <span className="dashboard-pro__timestamp">— {tipOfTheDay.author}</span>
-        </div>
-      </li>
-    )}
-  </ul>
-</section>
-
+        <section className="dashboard-pro__notifications-section">
+          <div className="section-header">
+            <h2>Notifications</h2>
+          </div>
+          <ul className="dashboard-pro__notifications-list">
+            {/* Tip of the Day */}
+            {tipOfTheDay.tip && (
+              <li className="dashboard-pro__notification-item tip-of-the-day">
+                <FaBell className="dashboard-pro__notification-icon" />
+                <div className="dashboard-pro__notification-content">
+                  <p>
+                    <strong> Tip of the Day:</strong> {tipOfTheDay.tip}
+                  </p>
+                  <span className="dashboard-pro__timestamp">
+                    — {tipOfTheDay.author}
+                  </span>
+                </div>
+              </li>
+            )}
+          </ul>
+        </section>
       </main>
     </div>
   );

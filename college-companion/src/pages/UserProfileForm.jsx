@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useNavigate } from "react";
+import React, { useState, useEffect, useNavigate } from "react";
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
 } from "../components/ui/card";
 import { Input } from "../components/ui/Input";
 import { Label } from "../components/ui/label";
-import { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/Avatar";
 import {
   Select,
@@ -20,9 +20,8 @@ import { Camera, User } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import "../Styles/UserProfileForm.css";
 import { requestForToken } from "../utils/firebase";
-import {API_BASE} from "../consatants/Constants";
+import { API_BASE } from "../consatants/Constants";
 import axios from "axios";
-
 
 function UserProfileForm() {
   const [formData, setFormData] = useState({
@@ -38,19 +37,17 @@ function UserProfileForm() {
   const [isFormComplete, setIsFormComplete] = useState(false);
   const toast = useToast();
   const currentYear = new Date().getFullYear();
-  const navigate= useNavigate();
-
-
+  const navigate = useNavigate();
 
   // Check if all required fields are filled
   useEffect(() => {
     const { major, level, graduation_year } = formData;
     const isComplete = Boolean(
       major.trim() &&
-      level &&
-      graduation_year &&
-      graduation_year >= 2020 &&
-      graduation_year <= currentYear+7
+        level &&
+        graduation_year &&
+        graduation_year >= 2020 &&
+        graduation_year <= currentYear + 7
     );
     setIsFormComplete(isComplete);
   }, [formData]);
@@ -60,18 +57,21 @@ function UserProfileForm() {
 
     if (e.target.type === "file") {
       const file = e.target.files[0];
-      setFormData(prev => ({ ...prev, profile_picture: file }));
+      setFormData((prev) => ({ ...prev, profile_picture: file }));
       setPreview(URL.createObjectURL(file));
     } else if (e.target.type === "number") {
       // Handle number inputs specifically
-      setFormData(prev => ({ ...prev, [name]: value ? parseInt(value, 10) : "" }));
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value ? parseInt(value, 10) : "",
+      }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleLevelChange = (value) => {
-    setFormData(prev => ({ ...prev, level: value }));
+    setFormData((prev) => ({ ...prev, level: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -82,22 +82,22 @@ function UserProfileForm() {
     try {
       const token = await requestForToken();
       if (token) {
-     await axios.put(
-       `${API_BASE}/user/profile/`,
-    {
-      ...FormData,
-      fcm_token: token
-    },
-    { withCredentials: true }
-  );
-}
+        await axios.put(
+          `${API_BASE}/user/profile/`,
+          {
+            ...FormData,
+            fcm_token: token,
+          },
+          { withCredentials: true }
+        );
+      }
 
       toast({
         title: "Profile Updated",
         description: "Your profile has been successfully updated.",
       });
 
-      navigate('/add-semester');
+      navigate("/add-semester");
     } catch (error) {
       toast({
         title: "Error",
@@ -118,7 +118,10 @@ function UserProfileForm() {
                 <User className="user-profile__fallback-icon" />
               </AvatarFallback>
             </Avatar>
-            <label htmlFor="profilePictureInput" className="user-profile__camera-button">
+            <label
+              htmlFor="profilePictureInput"
+              className="user-profile__camera-button"
+            >
               <Camera className="user-profile__camera-icon" />
             </label>
             <input
@@ -130,7 +133,9 @@ function UserProfileForm() {
               className="user-profile__file-input"
             />
           </div>
-          <CardTitle className="user-profile__card-title">Create Your Profile</CardTitle>
+          <CardTitle className="user-profile__card-title">
+            Create Your Profile
+          </CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -153,7 +158,8 @@ function UserProfileForm() {
 
             <div className="user-profile__form-group">
               <Label htmlFor="minor" className="user-profile__form-label">
-                Minor <span className="user-profile__optional-text">(optional)</span>
+                Minor{" "}
+                <span className="user-profile__optional-text">(optional)</span>
               </Label>
               <Input
                 id="minor"
@@ -186,7 +192,10 @@ function UserProfileForm() {
             </div>
 
             <div className="user-profile__form-group">
-              <Label htmlFor="graduationYear" className="user-profile__form-label">
+              <Label
+                htmlFor="graduationYear"
+                className="user-profile__form-label"
+              >
                 Expected Graduation Year*
               </Label>
               <Input
@@ -204,7 +213,8 @@ function UserProfileForm() {
 
             <div className="user-profile__form-group">
               <Label htmlFor="bio" className="user-profile__form-label">
-                Bio <span className="user-profile__optional-text">(optional)</span>
+                Bio{" "}
+                <span className="user-profile__optional-text">(optional)</span>
               </Label>
               <textarea
                 id="bio"
@@ -224,7 +234,10 @@ function UserProfileForm() {
             >
               Create Profile
               {!isFormComplete && (
-                <span className="user-profile__required-text"> (Complete required fields*)</span>
+                <span className="user-profile__required-text">
+                  {" "}
+                  (Complete required fields*)
+                </span>
               )}
             </Button>
           </form>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { Input } from "./ui/Input";
 import { Label } from "./ui/label";
 import {
@@ -24,19 +24,22 @@ import { useToast } from "../hooks/use-toast";
 import axios from "axios";
 import "../Styles/SemesterManager.css";
 import { format } from "date-fns";
-import {API_BASE} from "../consatants/Constants";
-import {getCookie} from "../utils/getcookies";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/Select';
+import { API_BASE } from "../consatants/Constants";
+import { getCookie } from "../utils/getcookies";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/Select";
 
 const SemesterManager = () => {
+  const csrfToken = getCookie("csrftoken");
 
-
-
-
-
-    const csrfToken=getCookie('csrftoken');
-
-  const { semesters, addSemester, updateSemester, deleteSemester } = useAdmin([]);
+  const { semesters, addSemester, updateSemester, deleteSemester } = useAdmin(
+    []
+  );
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingSemester, setEditingSemester] = useState(null);
@@ -46,9 +49,8 @@ const SemesterManager = () => {
     year: new Date().getFullYear(),
     start_date: "",
     end_date: "",
-    semester_type: 'Fall'
+    semester_type: "Fall",
   });
-
 
   const resetForm = () => {
     setFormData({
@@ -60,20 +62,19 @@ const SemesterManager = () => {
     setEditingSemester(null);
   };
 
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-         // Format dates to 'YYYY-MM-DD'
+    // Format dates to 'YYYY-MM-DD'
     const formattedFormData = {
       ...formData,
-      start_date: formData.start_date ? format(new Date(formData.start_date), 'yyyy-MM-dd') : null,
-      end_date: formData.end_date ? format(new Date(formData.end_date), 'yyyy-MM-dd') : null,
+      start_date: formData.start_date
+        ? format(new Date(formData.start_date), "yyyy-MM-dd")
+        : null,
+      end_date: formData.end_date
+        ? format(new Date(formData.end_date), "yyyy-MM-dd")
+        : null,
     };
-
 
     try {
       let response;
@@ -90,10 +91,14 @@ const SemesterManager = () => {
         });
       } else {
         // Add semester to backend
-        response = await axios.post(`${API_BASE}/semesters-operation/`, formattedFormData, {
-            headers: {'X-CSRFToken': csrfToken},
-            withCredentials: true
-        });
+        response = await axios.post(
+          `${API_BASE}/semesters-operation/`,
+          formattedFormData,
+          {
+            headers: { "X-CSRFToken": csrfToken },
+            withCredentials: true,
+          }
+        );
         const newSemester = response.data;
         addSemester(newSemester);
         toast({
@@ -115,7 +120,7 @@ const SemesterManager = () => {
 
   const handleDelete = async (semester) => {
     try {
-      console.log('Deleting semester with id:', semester.id);
+      console.log("Deleting semester with id:", semester.id);
       await axios.delete(`${API_BASE}/semesters-operation/${semester.id}/`);
       deleteSemester(semesters.find((semester) => semester.id === id));
       toast({
@@ -133,8 +138,6 @@ const SemesterManager = () => {
   };
 
   const handleEdit = (semester) => {
-
-
     setEditingSemester(semester);
     setFormData({
       name: semester.name,
@@ -146,13 +149,12 @@ const SemesterManager = () => {
     setIsDialogOpen(true);
   };
 
-
-
-
   return (
     <Card>
       <CardHeader className="semester-manager__card-header">
-        <CardTitle className="semester-manager__card-title">Semester Management</CardTitle>
+        <CardTitle className="semester-manager__card-title">
+          Semester Management
+        </CardTitle>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -200,24 +202,31 @@ const SemesterManager = () => {
                 />
               </div>
 
-
               <div className="course-manager__form-group">
-                  <Label htmlFor="semester">Semester</Label>
-                  <Select value={formData.semester_type} onValueChange={(value) => setFormData({...formData, semester_type:value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select semester" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value='Fall' >Fall</SelectItem>
-                         <SelectItem value='Spring' >Spring</SelectItem>
-                         <SelectItem value='Fall' >Summer</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Label htmlFor="semester">Semester</Label>
+                <Select
+                  value={formData.semester_type}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, semester_type: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select semester" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Fall">Fall</SelectItem>
+                    <SelectItem value="Spring">Spring</SelectItem>
+                    <SelectItem value="Fall">Summer</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
               <div className="semester-manager__form-grid-2">
                 <div className="semester-manager__form-group">
-                  <Label htmlFor="startDate" className="semester-manager__label">
+                  <Label
+                    htmlFor="startDate"
+                    className="semester-manager__label"
+                  >
                     Start Date
                   </Label>
                   <Input
@@ -258,7 +267,10 @@ const SemesterManager = () => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="semester-manager__button-submit">
+                <Button
+                  type="submit"
+                  className="semester-manager__button-submit"
+                >
                   {editingSemester ? "Update" : "Create"} Semester
                 </Button>
               </div>

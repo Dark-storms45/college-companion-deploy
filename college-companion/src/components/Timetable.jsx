@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FixedTimetable from "./FixedTimetable";
 import GeneratedTimetable from "./GeneratedTimetable";
-import { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/button";
 import { BookOpen, Clock, Calendar, Table } from "lucide-react";
 import "../Styles/Timetable.css";
 import { Card } from "./ui/card";
@@ -51,8 +51,12 @@ const Timetable = () => {
           <div className="timetable__stat-content">
             <BookOpen className="timetable__stat-icon timetable__stat-icon--blue" />
             <div>
-              <p className="timetable__stat-value timetable__stat-value--blue">{courseCount}</p>
-              <p className="timetable__stat-label timetable__stat-label--blue">Total Courses</p>
+              <p className="timetable__stat-value timetable__stat-value--blue">
+                {courseCount}
+              </p>
+              <p className="timetable__stat-label timetable__stat-label--blue">
+                Total Courses
+              </p>
             </div>
           </div>
         </Card>
@@ -60,8 +64,12 @@ const Timetable = () => {
           <div className="timetable__stat-content">
             <Clock className="timetable__stat-icon timetable__stat-icon--green" />
             <div>
-              <p className="timetable__stat-value timetable__stat-value--green">{studyCount}</p>
-              <p className="timetable__stat-label timetable__stat-label--green">Study Sessions</p>
+              <p className="timetable__stat-value timetable__stat-value--green">
+                {studyCount}
+              </p>
+              <p className="timetable__stat-label timetable__stat-label--green">
+                Study Sessions
+              </p>
             </div>
           </div>
         </Card>
@@ -72,7 +80,9 @@ const Timetable = () => {
               <p className="timetable__stat-value timetable__stat-value--purple">
                 {Math.round(totalHours)}h
               </p>
-              <p className="timetable__stat-label timetable__stat-label--purple">Weekly Hours</p>
+              <p className="timetable__stat-label timetable__stat-label--purple">
+                Weekly Hours
+              </p>
             </div>
           </div>
         </Card>
@@ -83,7 +93,9 @@ const Timetable = () => {
         <Button
           onClick={() => switchTab("fixed", activeTab, setActiveTab)}
           variant={activeTab === "fixed" ? "default" : "outline"}
-          className={`timetable__btn-tab${activeTab === "fixed" ? " active" : ""}`}
+          className={`timetable__btn-tab${
+            activeTab === "fixed" ? " active" : ""
+          }`}
           aria-pressed={activeTab === "fixed"}
         >
           <Table className="timetable__icon-small" />
@@ -92,7 +104,9 @@ const Timetable = () => {
         <Button
           onClick={() => switchTab("generated", activeTab, setActiveTab)}
           variant={activeTab === "generated" ? "default" : "outline"}
-          className={`timetable__btn-tab${activeTab === "generated" ? " active" : ""}`}
+          className={`timetable__btn-tab${
+            activeTab === "generated" ? " active" : ""
+          }`}
           aria-pressed={activeTab === "generated"}
         >
           <Calendar className="timetable__icon-small" />

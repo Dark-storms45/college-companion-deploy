@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Menu, 
-  X, 
-  User, 
-  LogOut, 
-  Settings, 
-  Bell, 
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  Settings,
+  Bell,
   Search,
   BookOpen,
   Calendar,
   Users,
   MessageCircle,
-  ChevronDown
-} from 'lucide-react';
-import '../Styles/Header.css';
+  ChevronDown,
+} from "lucide-react";
+import "../Styles/Header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,29 +29,29 @@ const Header = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     // Simulate user data - replace with actual user context
     setUser({
-      name: 'John Doe',
-      email: 'john@example.com',
-      avatar: null
+      name: "John Doe",
+      email: "john@example.com",
+      avatar: null,
     });
   }, []);
 
   const navigationItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: BookOpen },
-    { name: 'Semester Plan', path: '/semester-plan', icon: Calendar },
-    { name: 'Study Groups', path: '/chat', icon: Users },
-    { name: 'AI Assistant', path: '/ai-assistant', icon: MessageCircle },
+    { name: "Dashboard", path: "/dashboard", icon: BookOpen },
+    { name: "Semester Plan", path: "/semester-plan", icon: Calendar },
+    { name: "Study Groups", path: "/chat", icon: Users },
+    { name: "AI Assistant", path: "/ai-assistant", icon: MessageCircle },
   ];
 
   const handleLogout = () => {
     // Add logout logic here
-    navigate('/login');
+    navigate("/login");
   };
 
   const isActivePath = (path) => {
@@ -59,7 +59,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`modern-header ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`modern-header ${isScrolled ? "scrolled" : ""}`}>
       <div className="header-container">
         {/* Logo */}
         <Link to="/" className="header-logo">
@@ -77,7 +77,9 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`nav-link ${isActivePath(item.path) ? 'active' : ''}`}
+                className={`nav-link ${
+                  isActivePath(item.path) ? "active" : ""
+                }`}
               >
                 <Icon size={18} />
                 <span>{item.name}</span>
@@ -94,7 +96,10 @@ const Header = () => {
           </button>
 
           {/* Notifications */}
-          <button className="header-action-btn notification-btn" aria-label="Notifications">
+          <button
+            className="header-action-btn notification-btn"
+            aria-label="Notifications"
+          >
             <Bell size={20} />
             <span className="notification-badge">3</span>
           </button>
@@ -114,7 +119,10 @@ const Header = () => {
                 )}
               </div>
               <span className="user-name">{user?.name}</span>
-              <ChevronDown size={16} className={`chevron ${isUserMenuOpen ? 'rotated' : ''}`} />
+              <ChevronDown
+                size={16}
+                className={`chevron ${isUserMenuOpen ? "rotated" : ""}`}
+              />
             </button>
 
             {isUserMenuOpen && (
@@ -132,7 +140,7 @@ const Header = () => {
                     <span className="user-menu-email">{user?.email}</span>
                   </div>
                 </div>
-                
+
                 <div className="user-menu-items">
                   <Link to="/profile" className="user-menu-item">
                     <User size={18} />
@@ -142,7 +150,10 @@ const Header = () => {
                     <Settings size={18} />
                     <span>Settings</span>
                   </Link>
-                  <button onClick={handleLogout} className="user-menu-item logout">
+                  <button
+                    onClick={handleLogout}
+                    className="user-menu-item logout"
+                  >
                     <LogOut size={18} />
                     <span>Logout</span>
                   </button>
@@ -189,7 +200,9 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`mobile-nav-item ${isActivePath(item.path) ? 'active' : ''}`}
+                    className={`mobile-nav-item ${
+                      isActivePath(item.path) ? "active" : ""
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Icon size={20} />
@@ -220,4 +233,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import {
   ArrowRight,
   BookOpen,
@@ -18,7 +18,7 @@ const Hero = () => {
     try {
       navigate(path);
     } catch (error) {
-      console.error('Navigation error:', error);
+      console.error("Navigation error:", error);
     }
   };
 

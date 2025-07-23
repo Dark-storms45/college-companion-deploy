@@ -1,31 +1,29 @@
-import React from 'react';
-import { DAYS, TIME_SLOTS } from '../consatants/Constants';
-import '../Styles/Timetable.css';
+import React from "react";
+import { DAYS, TIME_SLOTS } from "../consatants/Constants";
+import "../Styles/Timetable.css";
 
 const GeneratedTimetable = ({ generatedSchedule }) => {
   if (!Array.isArray(generatedSchedule)) {
-    console.error('generatedSchedule is not an array:', generatedSchedule);
+    console.error("generatedSchedule is not an array:", generatedSchedule);
     return <div>No valid schedule data available.</div>;
   }
 
-
   const allTimeSlots = new Set([...TIME_SLOTS]);
 
-
   generatedSchedule.forEach((scheduleItem) => {
-    const startHour = parseInt(scheduleItem.start_time.split(':')[0]);
-    const endHour = parseInt(scheduleItem.end_time.split(':')[0]);
+    const startHour = parseInt(scheduleItem.start_time.split(":")[0]);
+    const endHour = parseInt(scheduleItem.end_time.split(":")[0]);
 
     for (let hour = startHour; hour < endHour; hour++) {
-      const timeSlot = `${hour.toString().padStart(2, '0')}:00`;
+      const timeSlot = `${hour.toString().padStart(2, "0")}:00`;
       allTimeSlots.add(timeSlot);
     }
   });
 
   // Convert to sorted array
   const dynamicTimeSlots = Array.from(allTimeSlots).sort((a, b) => {
-    const hourA = parseInt(a.split(':')[0]);
-    const hourB = parseInt(b.split(':')[0]);
+    const hourA = parseInt(a.split(":")[0]);
+    const hourB = parseInt(b.split(":")[0]);
     return hourA - hourB;
   });
 
@@ -39,21 +37,18 @@ const GeneratedTimetable = ({ generatedSchedule }) => {
     });
   });
 
-
   generatedSchedule.forEach((scheduleItem) => {
-    const startHour = parseInt(scheduleItem.start_time.split(':')[0]);
-    const endHour = parseInt(scheduleItem.end_time.split(':')[0]);
-
+    const startHour = parseInt(scheduleItem.start_time.split(":")[0]);
+    const endHour = parseInt(scheduleItem.end_time.split(":")[0]);
 
     for (let hour = startHour; hour < endHour; hour++) {
-      const timeSlot = `${hour.toString().padStart(2, '0')}:00`;
-
+      const timeSlot = `${hour.toString().padStart(2, "0")}:00`;
 
       if (timetableData[scheduleItem.day]) {
         timetableData[scheduleItem.day][timeSlot].push({
           ...scheduleItem,
           isFirstSlot: hour === startHour,
-          totalSlots: endHour - startHour
+          totalSlots: endHour - startHour,
         });
       }
     }
@@ -77,10 +72,18 @@ const GeneratedTimetable = ({ generatedSchedule }) => {
             <tr key={timeSlot} className="generated-timetable__table-row">
               <td className="generated-timetable__time-slot">{timeSlot}</td>
               {DAYS.map((day) => (
-                <td key={`${day}-${timeSlot}`} className="generated-timetable__table-cell">
+                <td
+                  key={`${day}-${timeSlot}`}
+                  className="generated-timetable__table-cell"
+                >
                   {timetableData[day][timeSlot].map((scheduleItem, index) => (
-                    <div key={`${scheduleItem.id}-${index}`} className="generated-timetable__event">
-                      <div className="generated-timetable__course-name">Course {scheduleItem.course}</div>
+                    <div
+                      key={`${scheduleItem.id}-${index}`}
+                      className="generated-timetable__event"
+                    >
+                      <div className="generated-timetable__course-name">
+                        Course {scheduleItem.course}
+                      </div>
                       <div className="generated-timetable__course-time">
                         {scheduleItem.start_time} - {scheduleItem.end_time}
                       </div>

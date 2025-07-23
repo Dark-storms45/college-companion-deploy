@@ -1,17 +1,40 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Button } from "../components/ui/Button";
+import { Button } from "./ui/button";
 import { Card } from "../components/ui/card";
 import { Label } from "../components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/Select";
 import axios from "axios";
-import { Plus, Trash2, BookOpen, Edit3, Save, X, Clock, Calendar } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  BookOpen,
+  Edit3,
+  Save,
+  X,
+  Clock,
+  Calendar,
+} from "lucide-react";
 import "../Styles/CourseForm.css";
-import {API_BASE} from "../consatants/Constants";
+import { API_BASE } from "../consatants/Constants";
 import userContext from "../context/UserContext";
 
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const DAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
-const CourseForm = ({ semester, level,onFormComplete }) => {
+const CourseForm = ({ semester, level, onFormComplete }) => {
   const formRef = useRef(null);
 
   const [courses, setCourses] = useState([]);
@@ -23,25 +46,25 @@ const CourseForm = ({ semester, level,onFormComplete }) => {
     day: "",
     start_time: "",
     end_time: "",
-    difficulty_level:"",
-    semester:semester.semesterId,
-
+    difficulty_level: "",
+    semester: semester.semesterId,
   });
 
-
-
-
-// Dynamically find the name of the selected course
-const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
-
+  // Dynamically find the name of the selected course
+  const selectedCourseName = courses.find((c) => c.id === currentCourse.name);
 
   // Fetch courses based on semester and level
   useEffect(() => {
     if (semester && level) {
       axios
-        .get(`${API_BASE}/courses/?semester=${semester.semester_type}&academicLevel=${level}`,{withCredentials: true})
+        .get(
+          `${API_BASE}/courses/?semester=${semester.semester_type}&academicLevel=${level}`,
+          { withCredentials: true }
+        )
         .then((response) => {
-          const fetchedCourses = Array.isArray(response.data) ? response.data : response.data.courses || [];
+          const fetchedCourses = Array.isArray(response.data)
+            ? response.data
+            : response.data.courses || [];
           setCourses(fetchedCourses);
         })
         .catch((error) => {
@@ -50,8 +73,7 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
     }
   }, [semester, level]);
 
-
-    useEffect(() => {
+  useEffect(() => {
     if (selectedCourses.length >= 2) {
       setIsCourseStepComplete(true);
       onFormComplete(true);
@@ -61,9 +83,6 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
     }
   }, [selectedCourses, onFormComplete]);
 
-
-
-
   // Reset form
   const resetForm = () => {
     setCurrentCourse({
@@ -71,29 +90,38 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
       day: "",
       start_time: "",
       end_time: "",
-      difficulty_level: '',
-      semester:semester.semesterId,
+      difficulty_level: "",
+      semester: semester.semesterId,
     });
     setEditingId(null);
     if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' });
+      formRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   // Add a new course
   const addCourse = () => {
-    if (!currentCourse.course || !currentCourse.day || !currentCourse.start_time || !currentCourse.end_time|| !currentCourse.difficulty_level
-) {
+    if (
+      !currentCourse.course ||
+      !currentCourse.day ||
+      !currentCourse.start_time ||
+      !currentCourse.end_time ||
+      !currentCourse.difficulty_level
+    ) {
       alert("Please fill in all fields before adding the course.");
       return;
     }
 
     // Check for time conflicts
-    const hasConflict = selectedCourses.some(existingCourse =>
-      existingCourse.day === currentCourse.day &&
-      ((currentCourse.start_time >= existingCourse.start_time && currentCourse.start_time < existingCourse.end_time) ||
-       (currentCourse.end_time > existingCourse.start_time && currentCourse.end_time <= existingCourse.end_time) ||
-       (currentCourse.start_time <= existingCourse.start_time && currentCourse.end_time >= existingCourse.end_time))
+    const hasConflict = selectedCourses.some(
+      (existingCourse) =>
+        existingCourse.day === currentCourse.day &&
+        ((currentCourse.start_time >= existingCourse.start_time &&
+          currentCourse.start_time < existingCourse.end_time) ||
+          (currentCourse.end_time > existingCourse.start_time &&
+            currentCourse.end_time <= existingCourse.end_time) ||
+          (currentCourse.start_time <= existingCourse.start_time &&
+            currentCourse.end_time >= existingCourse.end_time))
     );
 
     if (hasConflict) {
@@ -103,12 +131,11 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
 
     const newCourse = {
       ...currentCourse,
-       day: currentCourse.day,
+      day: currentCourse.day,
       start_time: currentCourse.start_time,
       end_time: currentCourse.end_time,
       difficulty_level: currentCourse.difficulty_level,
-      semester: parseInt(semester.semesterId, 10)
-
+      semester: parseInt(semester.semesterId, 10),
     };
 
     setSelectedCourses([...selectedCourses, newCourse]);
@@ -117,7 +144,7 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
 
   // Remove a course
   const removeCourse = (id) => {
-    setSelectedCourses(selectedCourses.filter(course => course.id !== id));
+    setSelectedCourses(selectedCourses.filter((course) => course.id !== id));
     if (editingId === id) {
       resetForm();
     }
@@ -125,27 +152,40 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
 
   // Start editing a course
   const startEdit = (course) => {
-    setCurrentCourse({ ...course ,semester:semester.semesterId,difficulty_level:course.level||"Medium"});
+    setCurrentCourse({
+      ...course,
+      semester: semester.semesterId,
+      difficulty_level: course.level || "Medium",
+    });
     setEditingId(course.id);
     if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' });
+      formRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   // Save edited course
   const saveEdit = () => {
-    if (!currentCourse.course || !currentCourse.day || !currentCourse.startTime || !currentCourse.endTime) {
+    if (
+      !currentCourse.course ||
+      !currentCourse.day ||
+      !currentCourse.startTime ||
+      !currentCourse.endTime
+    ) {
       alert("Please fill in all fields before saving.");
       return;
     }
 
     // Check for time conflicts (excluding the course being edited)
-    const hasConflict = selectedCourses.some(existingCourse =>
-      existingCourse.id !== editingId &&
-      existingCourse.day === currentCourse.day &&
-      ((currentCourse.start_time >= existingCourse.start_time && currentCourse.start_time < existingCourse.end_time) ||
-       (currentCourse.end_time > existingCourse.start_time && currentCourse.end_time <= existingCourse.end_time) ||
-       (currentCourse.start_time <= existingCourse.start_time && currentCourse.end_time >= existingCourse.end_time))
+    const hasConflict = selectedCourses.some(
+      (existingCourse) =>
+        existingCourse.id !== editingId &&
+        existingCourse.day === currentCourse.day &&
+        ((currentCourse.start_time >= existingCourse.start_time &&
+          currentCourse.start_time < existingCourse.end_time) ||
+          (currentCourse.end_time > existingCourse.start_time &&
+            currentCourse.end_time <= existingCourse.end_time) ||
+          (currentCourse.start_time <= existingCourse.start_time &&
+            currentCourse.end_time >= existingCourse.end_time))
     );
 
     if (hasConflict) {
@@ -153,55 +193,52 @@ const selectedCourseName = courses.find((c) => c.id === currentCourse.name)  ;
       return;
     }
 
-    setSelectedCourses(selectedCourses.map(course =>
-      course.id === editingId ? { ...currentCourse } : course
-    ));
+    setSelectedCourses(
+      selectedCourses.map((course) =>
+        course.id === editingId ? { ...currentCourse } : course
+      )
+    );
     resetForm();
   };
 
   // Update current course form
   const updateCurrentCourse = (field, value) => {
-    setCurrentCourse(prev => ({ ...prev, [field]: value }));
+    setCurrentCourse((prev) => ({ ...prev, [field]: value }));
   };
 
   // Format time for display
   const formatTime = (time) => {
     return new Date(`2000-01-01T${time}`).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
     });
   };
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (selectedCourses.length === 0) {
-    alert("Please add at least one course before submitting.");
-    return;
-  }
+    if (selectedCourses.length === 0) {
+      alert("Please add at least one course before submitting.");
+      return;
+    }
 
-  try {
-    await axios.post(
-      `${API_BASE}/fixed-schedules/`,
-       selectedCourses ,
-      { withCredentials: true }
-    );
+    try {
+      await axios.post(`${API_BASE}/fixed-schedules/`, selectedCourses, {
+        withCredentials: true,
+      });
 
-
-    resetForm();
-    alert(
-      `Successfully added ${selectedCourses.length} course${
-        selectedCourses.length !== 1 ? "s" : ""
-      } to your schedule!`
-    );
-    console.log("Submitted Courses:", selectedCourses);
-  } catch (error) {
-
-    alert("Failed to add courses. Please try again.");
-    console.error("Error submitting courses:", error);
-  }
-};
-
+      resetForm();
+      alert(
+        `Successfully added ${selectedCourses.length} course${
+          selectedCourses.length !== 1 ? "s" : ""
+        } to your schedule!`
+      );
+      console.log("Submitted Courses:", selectedCourses);
+    } catch (error) {
+      alert("Failed to add courses. Please try again.");
+      console.error("Error submitting courses:", error);
+    }
+  };
 
   return (
     <div className="course-form">
@@ -235,20 +272,20 @@ const handleSubmit = async (e) => {
         <div className="form-card-header">
           <div className="form-title">
             <BookOpen size={20} />
-            <h2>{editingId ? 'Edit Course' : 'Add New Course'}</h2>
+            <h2>{editingId ? "Edit Course" : "Add New Course"}</h2>
           </div>
           {editingId && (
-                  <Button
+            <Button
               onClick={resetForm}
               variant="ghost"
-                    size="sm"
+              size="sm"
               className="cancel-edit-btn"
             >
               <X size={16} />
               Cancel Edit
-                  </Button>
-              )}
-            </div>
+            </Button>
+          )}
+        </div>
 
         <div className="form-grid">
           <div className="form-group">
@@ -256,22 +293,23 @@ const handleSubmit = async (e) => {
               <BookOpen size={16} />
               Course Name
             </Label>
-              <Select
-                    onValueChange={(value) => setCurrentCourse({ ...currentCourse, course: value })}
-                    value={currentCourse.course || ""}
-                                     >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select a course" />
-                          </SelectTrigger>
-                       <SelectContent>
-                       {courses.map((course) => (
-                           <SelectItem key={course.id} value={course.id}>
-                             {course.name}
-                              </SelectItem>
-                       ))}
-                    </SelectContent>
-                    </Select>
-
+            <Select
+              onValueChange={(value) =>
+                setCurrentCourse({ ...currentCourse, course: value })
+              }
+              value={currentCourse.course || ""}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a course" />
+              </SelectTrigger>
+              <SelectContent>
+                {courses.map((course) => (
+                  <SelectItem key={course.id} value={course.id}>
+                    {course.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="form-group">
@@ -305,9 +343,11 @@ const handleSubmit = async (e) => {
               type="time"
               className="form-input time-input"
               value={currentCourse.start_time}
-              onChange={(e) => updateCurrentCourse("start_time", e.target.value)}
-                />
-              </div>
+              onChange={(e) =>
+                updateCurrentCourse("start_time", e.target.value)
+              }
+            />
+          </div>
 
           <div className="form-group">
             <Label className="form-label">
@@ -319,30 +359,31 @@ const handleSubmit = async (e) => {
               className="form-input time-input"
               value={currentCourse.end_time}
               onChange={(e) => updateCurrentCourse("end_time", e.target.value)}
-              />
-            </div>
+            />
+          </div>
         </div>
 
-              <div className="mb-4">
-  <Label htmlFor="difficulty_level">Difficulty Level</Label>
-  <Select
-    value={currentCourse.difficulty_level}
-    onValueChange={(value) => setCurrentCourse({
-      ...currentCourse,
-      difficulty_level: value
-    })}
-  >
-    <SelectTrigger>
-      <SelectValue placeholder="Select difficulty level" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem value="easy">Easy</SelectItem>
-      <SelectItem value="medium">Medium</SelectItem>
-      <SelectItem value="hard">Hard</SelectItem>
-    </SelectContent>
-  </Select>
-</div>
-
+        <div className="mb-4">
+          <Label htmlFor="difficulty_level">Difficulty Level</Label>
+          <Select
+            value={currentCourse.difficulty_level}
+            onValueChange={(value) =>
+              setCurrentCourse({
+                ...currentCourse,
+                difficulty_level: value,
+              })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select difficulty level" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="easy">Easy</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="hard">Hard</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="form-actions">
           {editingId ? (
@@ -364,17 +405,25 @@ const handleSubmit = async (e) => {
         <div className="added-courses-section">
           <div className="section-header">
             <h2>Added Courses</h2>
-            <span className="course-count">{selectedCourses.length} course{selectedCourses.length !== 1 ? 's' : ''}</span>
+            <span className="course-count">
+              {selectedCourses.length} course
+              {selectedCourses.length !== 1 ? "s" : ""}
+            </span>
           </div>
 
           <div className="courses-grid">
             {selectedCourses.map((course, index) => (
-              <Card key={course.id} className={`course-card ${editingId === course.id ? 'editing' : ''}`}>
+              <Card
+                key={course.id}
+                className={`course-card ${
+                  editingId === course.id ? "editing" : ""
+                }`}
+              >
                 <div className="course-card-header">
                   <div className="course-number">
                     <BookOpen size={16} />
                     <span>Course {index + 1}</span>
-            </div>
+                  </div>
                   <div className="course-actions">
                     <Button
                       onClick={() => startEdit(course)}
@@ -385,7 +434,7 @@ const handleSubmit = async (e) => {
                     >
                       <Edit3 size={16} />
                     </Button>
-              <Button
+                    <Button
                       onClick={() => removeCourse(course.id)}
                       variant="ghost"
                       size="sm"
@@ -409,7 +458,10 @@ const handleSubmit = async (e) => {
                     </div>
                     <div className="schedule-item">
                       <Clock size={14} />
-                      <span>{formatTime(course.start_time)} - {formatTime(course.end_time)}</span>
+                      <span>
+                        {formatTime(course.start_time)} -{" "}
+                        {formatTime(course.end_time)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -418,13 +470,17 @@ const handleSubmit = async (e) => {
           </div>
 
           <div className="submit-section">
-            <Button onClick={handleSubmit} className="submit-btn" disabled={!isCourseStepComplete}>
+            <Button
+              onClick={handleSubmit}
+              className="submit-btn"
+              disabled={!isCourseStepComplete}
+            >
               <BookOpen size={16} />
               Submit All Courses
-              </Button>
+            </Button>
           </div>
-            </div>
-          )}
+        </div>
+      )}
     </div>
   );
 };

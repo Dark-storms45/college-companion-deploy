@@ -1,71 +1,77 @@
-import React, { useState } from 'react';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Switch } from '../components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/Select';
-import { Settings, Clock, Bell, Calendar, BookOpen } from 'lucide-react';
-import '../Styles/UserPrefrenceForm.css';
-import {getCookie} from "../utils/getcookies";
-import {API_BASE} from "../consatants/Constants";
+import React, { useState } from "react";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/label";
+import { Switch } from "../components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/Select";
+import { Settings, Clock, Bell, Calendar, BookOpen } from "lucide-react";
+import "../Styles/UserPrefrenceForm.css";
+import { getCookie } from "../utils/getcookies";
+import { API_BASE } from "../consatants/Constants";
 import axios from "axios";
 
-const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
-  const [studyStartTime, setStudyStartTime] = useState('');
-  const [studyEndTime, setStudyEndTime] = useState('');
+const PreferencesForm = ({ semester, level, onFormComplete, onBack }) => {
+  const [studyStartTime, setStudyStartTime] = useState("");
+  const [studyEndTime, setStudyEndTime] = useState("");
   const [reminderMinutes, setReminderMinutes] = useState(15);
   const [notifications, setNotifications] = useState(true);
   const [offDays, setOffDays] = useState([]);
   const [studyHoursPerDay, setStudyHoursPerDay] = useState(2);
-  const  csrfToken = getCookie("csrftoken");
+  const csrfToken = getCookie("csrftoken");
 
   const daysOfWeek = [
-    { id: 'monday', label: 'Monday', short: 'Mon' },
-    { id: 'tuesday', label: 'Tuesday', short: 'Tue' },
-    { id: 'wednesday', label: 'Wednesday', short: 'Wed' },
-    { id: 'thursday', label: 'Thursday', short: 'Thu' },
-    { id: 'friday', label: 'Friday', short: 'Fri' },
-    { id: 'saturday', label: 'Saturday', short: 'Sat' },
-    { id: 'sunday', label: 'Sunday', short: 'Sun' }
+    { id: "monday", label: "Monday", short: "Mon" },
+    { id: "tuesday", label: "Tuesday", short: "Tue" },
+    { id: "wednesday", label: "Wednesday", short: "Wed" },
+    { id: "thursday", label: "Thursday", short: "Thu" },
+    { id: "friday", label: "Friday", short: "Fri" },
+    { id: "saturday", label: "Saturday", short: "Sat" },
+    { id: "sunday", label: "Sunday", short: "Sun" },
   ];
 
   const handleOffDayToggle = (dayId) => {
-    setOffDays(prev => {
+    setOffDays((prev) => {
       if (prev.includes(dayId)) {
-        return prev.filter(day => day !== dayId);
+        return prev.filter((day) => day !== dayId);
       } else {
         return [...prev, dayId];
       }
     });
   };
 
-   const generateSchedule = async (semester) => {
+  const generateSchedule = async (semester) => {
     try {
-      await axios.post(`${API_BASE}/generate-timetable/`,
-       {
-        semester: parseInt(semester.semesterId, 10),
-       },
-       {
-            withCredentials: true,
-            headers: {
-              "X-CSRFToken": csrfToken,
-            }
-      });
-
-    }
-    catch (error) {
+      await axios.post(
+        `${API_BASE}/generate-timetable/`,
+        {
+          semester: parseInt(semester.semesterId, 10),
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
+        }
+      );
+    } catch (error) {
       console.error("Error generating schedule:", error);
     }
-  }
+  };
 
   const validateInputs = () => {
     if (!studyStartTime || !studyEndTime) {
-      alert('Please select both start and end time for your study sessions');
+      alert("Please select both start and end time for your study sessions");
       return false;
     }
 
     if (studyStartTime >= studyEndTime) {
-      alert('End time must be after start time');
+      alert("End time must be after start time");
       return false;
     }
 
@@ -75,13 +81,17 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
     const availableHours = (endTime - startTime) / (1000 * 60 * 60);
 
     if (studyHoursPerDay > availableHours) {
-      alert(`Study hours per day (${studyHoursPerDay}h) cannot exceed your available time window (${availableHours}h)`);
+      alert(
+        `Study hours per day (${studyHoursPerDay}h) cannot exceed your available time window (${availableHours}h)`
+      );
       return false;
     }
 
     // Check if user selected all days as off days
     if (offDays.length === 7) {
-      alert('You cannot select all days as off days. Please select at least one study day.');
+      alert(
+        "You cannot select all days as off days. Please select at least one study day."
+      );
       return false;
     }
 
@@ -94,33 +104,34 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
     }
 
     const studyDays = daysOfWeek
-      .filter(day => !offDays.includes(day.id))
-      .map(day => day.id);
+      .filter((day) => !offDays.includes(day.id))
+      .map((day) => day.id);
 
     try {
-      const response = await axios.post(`${API_BASE}/preferences/`,
-          [{
-        preferred_study_hours_per_day: studyHoursPerDay,
-        off_days: offDays,
-        study_start_min: `${studyStartTime}`,
-        study_end_max: `${studyEndTime}`,
-        notification_reminder_minutes: reminderMinutes,
-        semester: parseInt(semester.semesterId, 10),
-      }],
-      {
-            withCredentials: true,
-            headers: {
-              "X-CSRFToken": csrfToken,
-            }
-      });
-       await generateSchedule(semester);
-
+      const response = await axios.post(
+        `${API_BASE}/preferences/`,
+        [
+          {
+            preferred_study_hours_per_day: studyHoursPerDay,
+            off_days: offDays,
+            study_start_min: `${studyStartTime}`,
+            study_end_max: `${studyEndTime}`,
+            notification_reminder_minutes: reminderMinutes,
+            semester: parseInt(semester.semesterId, 10),
+          },
+        ],
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
+        }
+      );
+      await generateSchedule(semester);
     } catch (error) {
-      alert('Failed to generate timetable. Please try again later.');
+      alert("Failed to generate timetable. Please try again later.");
     }
   };
-
-
 
   return (
     <div className="preferences-form">
@@ -157,7 +168,8 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
             </div>
           </div>
           <p className="section-description">
-            Set your preferred time range for study sessions. We'll schedule study blocks within this range.
+            Set your preferred time range for study sessions. We'll schedule
+            study blocks within this range.
           </p>
         </div>
 
@@ -193,7 +205,8 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
             </Select>
           </div>
           <p className="section-description">
-            Choose how many hours you want to study per day. This will be distributed across your available time slots.
+            Choose how many hours you want to study per day. This will be
+            distributed across your available time slots.
           </p>
         </div>
 
@@ -205,7 +218,11 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
           <div className="off-days-grid">
             {daysOfWeek.map((day) => (
               <div key={day.id} className="day-toggle">
-                <label className={`day-checkbox ${offDays.includes(day.id) ? 'selected' : ''}`}>
+                <label
+                  className={`day-checkbox ${
+                    offDays.includes(day.id) ? "selected" : ""
+                  }`}
+                >
                   <input
                     type="checkbox"
                     checked={offDays.includes(day.id)}
@@ -221,12 +238,17 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
             ))}
           </div>
           <p className="section-description">
-            Select the days you don't want to study. We'll avoid scheduling study sessions on these days.
+            Select the days you don't want to study. We'll avoid scheduling
+            study sessions on these days.
             {offDays.length > 0 && (
               <span className="selected-off-days">
-                {' '}Selected off days: {offDays.map(dayId =>
-                  daysOfWeek.find(day => day.id === dayId)?.label
-                ).join(', ')}
+                {" "}
+                Selected off days:{" "}
+                {offDays
+                  .map(
+                    (dayId) => daysOfWeek.find((day) => day.id === dayId)?.label
+                  )
+                  .join(", ")}
               </span>
             )}
           </p>
@@ -239,7 +261,9 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
           </div>
           <div className="reminder-settings">
             <div className="reminder-group">
-              <Label htmlFor="reminder">Remind me before events (minutes)</Label>
+              <Label htmlFor="reminder">
+                Remind me before events (minutes)
+              </Label>
               <Select
                 value={reminderMinutes.toString()}
                 onValueChange={(value) => setReminderMinutes(parseInt(value))}
@@ -273,10 +297,7 @@ const PreferencesForm = ({  semester, level, onFormComplete, onBack }) => {
       </div>
 
       <div className="form-actions">
-        <Button
-          onClick={generateSchedule(semester)}
-          className="submit-button"
-        >
+        <Button onClick={generateSchedule(semester)} className="submit-button">
           Generate Timetable
         </Button>
       </div>

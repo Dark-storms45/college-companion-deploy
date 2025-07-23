@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/button";
 import CourseForm from "../components/CourseForm";
-import SemesterForm  from '../components/SemesterForm'
+import SemesterForm from "../components/SemesterForm";
 import { CheckCircle, Circle, ArrowLeft, ArrowRight } from "lucide-react";
 import {
   Card,
@@ -13,11 +13,10 @@ import "../Styles/AddSemester.css";
 import UserPrefrenceForm from "../components/UserPrefrenceForm";
 
 const MultiStepFormTracker = () => {
-
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("");
-   const [stepCompletion, setStepCompletion] = useState({
+  const [stepCompletion, setStepCompletion] = useState({
     "semester-info": false,
     "course-form": false,
     "user-preferences": false,
@@ -52,12 +51,6 @@ const MultiStepFormTracker = () => {
     }));
   };
 
-
-
-
-
-
-
   const goToNextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
@@ -71,7 +64,6 @@ const MultiStepFormTracker = () => {
   };
 
   const CurrentStepComponent = steps[currentStep].component;
-
 
   return (
     <div className="multistep-container">
@@ -88,7 +80,8 @@ const MultiStepFormTracker = () => {
         <Card className="form-card">
           <CardHeader>
             <CardTitle className="step-title">
-              {steps[currentStep].completed ? "✔" : "⏳"} {steps[currentStep].title}
+              {steps[currentStep].completed ? "✔" : "⏳"}{" "}
+              {steps[currentStep].title}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -100,8 +93,6 @@ const MultiStepFormTracker = () => {
               onFormComplete={(isCompleted) =>
                 handleStepCompletion(steps[currentStep].id, isCompleted)
               }
-
-
             />
 
             {/* Navigation Buttons */}

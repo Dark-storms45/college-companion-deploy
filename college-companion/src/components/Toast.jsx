@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
-import '../Styles/Toast.css';
+import React, { useEffect, useState } from "react";
+import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import "../Styles/Toast.css";
 
 const Toast = ({ toast, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,8 +13,8 @@ const Toast = ({ toast, onClose }) => {
     // Progress bar animation
     if (toast.duration > 0) {
       const interval = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev - (100 / (toast.duration / 100));
+        setProgress((prev) => {
+          const newProgress = prev - 100 / (toast.duration / 100);
           if (newProgress <= 0) {
             clearInterval(interval);
             handleClose();
@@ -35,14 +35,16 @@ const Toast = ({ toast, onClose }) => {
 
   const getIcon = () => {
     const iconClasses = "toast-icon flex-shrink-0";
-    
+
     switch (toast.type) {
-      case 'success':
+      case "success":
         return <CheckCircle className={`${iconClasses} toast-icon-success`} />;
-      case 'error':
+      case "error":
         return <AlertCircle className={`${iconClasses} toast-icon-error`} />;
-      case 'warning':
-        return <AlertTriangle className={`${iconClasses} toast-icon-warning`} />;
+      case "warning":
+        return (
+          <AlertTriangle className={`${iconClasses} toast-icon-warning`} />
+        );
       default:
         return <Info className={`${iconClasses} toast-icon-info`} />;
     }
@@ -51,11 +53,11 @@ const Toast = ({ toast, onClose }) => {
   const getToastClasses = () => {
     const baseClasses = "toast-container";
     switch (toast.type) {
-      case 'success':
+      case "success":
         return `${baseClasses} toast-success`;
-      case 'error':
+      case "error":
         return `${baseClasses} toast-error`;
-      case 'warning':
+      case "warning":
         return `${baseClasses} toast-warning`;
       default:
         return `${baseClasses} toast-default`;
@@ -64,11 +66,11 @@ const Toast = ({ toast, onClose }) => {
 
   const getProgressColor = () => {
     switch (toast.type) {
-      case 'success':
+      case "success":
         return "toast-progress-success";
-      case 'error':
+      case "error":
         return "toast-progress-error";
-      case 'warning':
+      case "warning":
         return "toast-progress-warning";
       default:
         return "toast-progress-default";
@@ -84,7 +86,7 @@ const Toast = ({ toast, onClose }) => {
       {/* Progress bar */}
       {toast.duration > 0 && (
         <div className="toast-progress-container">
-          <div 
+          <div
             className={`toast-progress ${getProgressColor()}`}
             style={{ width: `${progress}%` }}
           />
@@ -94,30 +96,18 @@ const Toast = ({ toast, onClose }) => {
       <div className="toast-content">
         <div className="toast-inner">
           {getIcon()}
-          
+
           <div className="toast-text">
-            {toast.title && (
-              <h4 className="toast-title">
-                {toast.title}
-              </h4>
-            )}
-            <p className="toast-message">
-              {toast.message}
-            </p>
+            {toast.title && <h4 className="toast-title">{toast.title}</h4>}
+            <p className="toast-message">{toast.message}</p>
             {toast.action && (
-              <button 
-                onClick={toast.action.onClick}
-                className="toast-action"
-              >
+              <button onClick={toast.action.onClick} className="toast-action">
                 {toast.action.label}
               </button>
             )}
           </div>
 
-          <button
-            onClick={handleClose}
-            className="toast-close-button"
-          >
+          <button onClick={handleClose} className="toast-close-button">
             <X className="toast-close-icon" />
           </button>
         </div>

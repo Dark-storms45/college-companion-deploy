@@ -2,13 +2,13 @@ import React, { useState, useContext } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Button } from "../components/ui/button";
+import { Button } from "./ui/button.jsx";
 import { Card } from "../components/ui/card";
 import { Plus, Calendar as CalendarIcon, Trash2, Edit } from "lucide-react";
 import EventModal from "./EventModal";
 import "../Styles/AcademicCalendar.css";
 import userContext from "../context/UserContext.jsx";
-import {API_BASE} from "../consatants/Constants";
+import { API_BASE } from "../consatants/Constants";
 import axios from "axios";
 
 const localizer = momentLocalizer(moment);
@@ -19,7 +19,12 @@ const api = axios.create({
   withCredentials: true,
 });
 
-const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelete }) => {
+const ScheduleCalendar = ({
+  events = [],
+  onEventAdd,
+  onEventUpdate,
+  onEventDelete,
+}) => {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -44,16 +49,20 @@ const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelet
     try {
       if (isEditing && selectedEvent) {
         // Update existing event
-        const response = await api.put(`/events/${selectedEvent.id}/`, eventData, {
-          headers: {'Content-Type': 'application/json'}
-        });
+        const response = await api.put(
+          `/events/${selectedEvent.id}/`,
+          eventData,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         const updatedEvent = { ...response.data, type: "custom" };
         onEventUpdate(updatedEvent);
       } else {
         // Create new event
-        const response = await api.post('/events/', eventData, {
-          headers: {'Content-Type': 'application/json'}
+        const response = await api.post("/events/", eventData, {
+          headers: { "Content-Type": "application/json" },
         });
 
         const newEvent = { ...response.data, type: "custom" };
@@ -65,8 +74,11 @@ const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelet
       setSelectedEvent(null);
       setIsEditing(false);
     } catch (error) {
-      console.error('Error saving event:', error.response?.data || error.message);
-      alert('Failed to save event');
+      console.error(
+        "Error saving event:",
+        error.response?.data || error.message
+      );
+      alert("Failed to save event");
     }
   };
 
@@ -79,8 +91,11 @@ const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelet
       setShowDeleteModal(false);
       setSelectedEvent(null);
     } catch (error) {
-      console.error('Error deleting event:', error.response?.data || error.message);
-      alert('Failed to delete event');
+      console.error(
+        "Error deleting event:",
+        error.response?.data || error.message
+      );
+      alert("Failed to delete event");
     }
   };
 
@@ -120,7 +135,7 @@ const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelet
               const now = new Date();
               setSelectedSlot({
                 start: now,
-                end: new Date(now.getTime() + 3600000)
+                end: new Date(now.getTime() + 3600000),
               });
               setSelectedEvent(null);
               setIsEditing(false);
@@ -194,10 +209,7 @@ const ScheduleCalendar = ({ events = [], onEventAdd, onEventUpdate, onEventDelet
               >
                 Cancel
               </Button>
-              <Button
-                variant="destructive"
-                onClick={handleDeleteEvent}
-              >
+              <Button variant="destructive" onClick={handleDeleteEvent}>
                 <Trash2 size={16} /> Delete
               </Button>
             </div>

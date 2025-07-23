@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-function StudyGroupList({ onSelectGroup, allGroups, currentUser, onJoinLeaveGroup, onToggleGroupOpen, onCreateGroupClick }) {
+function StudyGroupList({
+  onSelectGroup,
+  allGroups,
+  currentUser,
+  onJoinLeaveGroup,
+  onToggleGroupOpen,
+  onCreateGroupClick,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const myGroups = allGroups.filter((group) => group.isJoined);
@@ -30,53 +37,63 @@ function StudyGroupList({ onSelectGroup, allGroups, currentUser, onJoinLeaveGrou
       </button>
       <h3>My Groups</h3>
       <ul>
-        {filteredMyGroups.length > 0 ? (filteredMyGroups.map((group) => (
-          <li key={group.id} className="group-item">
-            <div onClick={() => onSelectGroup(group)} className="group-info">
-              <i className="fas fa-users"></i> {group.name}
-              <span>{group.course}</span>
-            </div>
-            <div className="group-actions">
-              {group.creatorId === currentUser.id || group.isAdmin ? (
+        {filteredMyGroups.length > 0 ? (
+          filteredMyGroups.map((group) => (
+            <li key={group.id} className="group-item">
+              <div onClick={() => onSelectGroup(group)} className="group-info">
+                <i className="fas fa-users"></i> {group.name}
+                <span>{group.course}</span>
+              </div>
+              <div className="group-actions">
+                {group.creatorId === currentUser.id || group.isAdmin ? (
+                  <button
+                    onClick={() => onToggleGroupOpen(group.id)}
+                    className={`group-action-button ${
+                      group.isOpen ? "close-group" : "open-group"
+                    }`}
+                  >
+                    {group.isOpen ? "Close" : "Open"}
+                  </button>
+                ) : null}
                 <button
-                  onClick={() => onToggleGroupOpen(group.id)}
-                  className={`group-action-button ${group.isOpen ? "close-group" : "open-group"}`}
+                  onClick={() => onJoinLeaveGroup(group.id)}
+                  className="group-action-button leave-group"
                 >
-                  {group.isOpen ? "Close" : "Open"}
+                  Leave
                 </button>
-              ) : null}
-              <button
-                onClick={() => onJoinLeaveGroup(group.id)}
-                className="group-action-button leave-group"
-              >
-                Leave
-              </button>
-            </div>
-          </li>
-        ))) : (<p className="no-groups-message">No groups joined yet.</p>)}
+              </div>
+            </li>
+          ))
+        ) : (
+          <p className="no-groups-message">No groups joined yet.</p>
+        )}
       </ul>
       <h3>Suggested Groups</h3>
       <ul>
-        {filteredSuggestedGroups.length > 0 ? (filteredSuggestedGroups.map((group) => (
-          <li key={group.id} className="group-item">
-            <div onClick={() => onSelectGroup(group)} className="group-info">
-              <i className="fas fa-users"></i> {group.name}
-              <span>{group.course}</span>
-            </div>
-            <div className="group-actions">
-              <button
-                onClick={() => onJoinLeaveGroup(group.id)}
-                className="group-action-button join-group"
-                disabled={!group.isOpen}
-              >
-                {group.isOpen ? "Join" : "Closed"}
-              </button>
-            </div>
-          </li>
-        ))) : (<p className="no-groups-message">No suggested groups available.</p>)}
+        {filteredSuggestedGroups.length > 0 ? (
+          filteredSuggestedGroups.map((group) => (
+            <li key={group.id} className="group-item">
+              <div onClick={() => onSelectGroup(group)} className="group-info">
+                <i className="fas fa-users"></i> {group.name}
+                <span>{group.course}</span>
+              </div>
+              <div className="group-actions">
+                <button
+                  onClick={() => onJoinLeaveGroup(group.id)}
+                  className="group-action-button join-group"
+                  disabled={!group.isOpen}
+                >
+                  {group.isOpen ? "Join" : "Closed"}
+                </button>
+              </div>
+            </li>
+          ))
+        ) : (
+          <p className="no-groups-message">No suggested groups available.</p>
+        )}
       </ul>
     </div>
   );
 }
 
-export default StudyGroupList; 
+export default StudyGroupList;
