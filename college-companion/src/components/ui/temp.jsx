@@ -1,14 +1,17 @@
 import React from "react";
-import "./Button.css";
-const Button = React.forwardRef(
-  ({ className, variant = "default", size = "default", ...props }, ref) => {
-    const buttonClass = `button button--${variant} button-size-${size} ${
-      className || ""
-    }`;
-    return <button className={buttonClass} ref={ref} {...props} />;
-  }
-);
+import "./Input.css"; // Import the CSS file
 
-Button.displayName = "Button";
+const Input = React.forwardRef(({ className, type, ...props }, ref) => {
+  return (
+    <input
+      type={type}
+      className={`input-field ${className}`}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 
-export { Button };
+Input.displayName = "Input";
+
+export { Input };
