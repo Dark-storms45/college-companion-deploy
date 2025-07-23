@@ -1,7 +1,10 @@
 node_modules
+.pnpm
 dist
-build
 .env
 *.log
 .vscode
 .git
+
+
+
