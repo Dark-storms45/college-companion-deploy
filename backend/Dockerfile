@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project (all apps, manage.py, etc.)
 COPY . /app/
 
+EXPOSE 10000
+
+
 # Copy entrypoint
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
