@@ -2,15 +2,25 @@
 
 set -e
 
-echo "🔄 Running migrations..."
-python /app/manage.py makemigrations --noinput
-python /app/manage.py migrate --noinput
-python manage.py migrate api 0001 --fake
+# Define a helper for colored output
+green()  { echo "\033[0;32m$1\033[0m"; }
+blue()   { echo "\033[0;34m$1\033[0m"; }
+yellow() { echo "\033[1;33m$1\033[0m"; }
 
-echo "📦 Collecting static files..."
+green "🔄 Checking for migrations..."
+python /app/manage.py makemigrations --check || {
+    yellow "🌀 New migrations detected. Creating..."
+    python /app/manage.py makemigrations
+}
+
+green "🛠️ Applying migrations..."
+python /app/manage.py migrate --noinput
+python /app/manage.py migrate api 0001 --fake
+
+blue "📦 Collecting static files..."
 python /app/manage.py collectstatic --noinput
 
-echo "👤 Creating superuser (email-based)..."
+green "👤 Creating superuser..."
 python /app/manage.py shell << END
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -20,10 +30,8 @@ if email and password and not User.objects.filter(email=email).exists():
     User.objects.create_superuser(email=email, password=password)
 END
 
-echo "🚀 Starting Gunicorn..."
-gunicorn backend.wsgi:application --chdir /app --bind 0.0.0.0:8000 --workers 3 &
+blue "🚀 Starting Gunicorn..."
+gunicorn backend.wsgi:application --chdir /app --bind 0.0.0.0:$PORT --workers 3 &
 
-
-
-    wait
-echo "✅ All services started successfully."
+wait
+green "✅ All services started successfully!"
