@@ -27,4 +27,4 @@ export const TIME_SLOTS = [
   "22:00",
 ];
 
-export const API_BASE = import.meta.env.VITE_API_BASE;
+export const API_BASE = "https://backend-45sn.onrender.com/api/";
